@@ -61,7 +61,7 @@ export const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0 2rem",
-    zIndex: 100,
+    zIndex: 2,
     borderBottom: "1px solid #e5e7eb",
   },
   main: {
