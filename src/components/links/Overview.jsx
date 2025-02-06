@@ -1,7 +1,7 @@
 import { PieChart, Pie, Cell } from "recharts";
 
-import StatCard from "./StatCard";
-import { styles } from "../assets/styles";
+import StatCard from "../StatCard";
+import { styles } from "../../assets/styles";
 
 export default function Overview() {
   const COLORS = ["#64a5f6", "#1e4d5f", "#f4a261"];

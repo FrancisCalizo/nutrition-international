@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
-import logo from "../assets/ni-logo.png";
-import { styles } from "../assets/styles";
+import logo from "../../assets/ni-logo.png";
+import { styles } from "../../assets/styles";
 
 export default function Sidebar() {
   const menuItems = [
