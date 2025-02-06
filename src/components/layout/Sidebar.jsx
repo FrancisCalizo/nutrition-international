@@ -7,12 +7,22 @@ export default function Sidebar() {
   const menuItems = [
     { icon: "⊞", label: "Dashboard", active: true, link: "/" },
     { icon: "🎁", label: "Grants", active: false, link: "/grants" },
-    { icon: "📑", label: "Projects", active: false },
-    { icon: "🔄", label: "Purchase Requisition", active: false },
-    { icon: "📄", label: "Contract Management", active: false },
-    { icon: "✈", label: "Milestones", active: false },
-    { icon: "📋", label: "PRF", active: false },
-    { icon: "📝", label: "Approvals (11)", active: false },
+    { icon: "📑", label: "Projects", active: false, link: "/projects" },
+    {
+      icon: "🔄",
+      label: "Purchase Requisition",
+      active: false,
+      link: "/purchase",
+    },
+    {
+      icon: "📄",
+      label: "Contract Management",
+      active: false,
+      link: "/contract",
+    },
+    { icon: "✈", label: "Milestones", active: false, link: "/milestones" },
+    { icon: "📋", label: "PRF", active: false, link: "/prf" },
+    { icon: "📝", label: "Approvals (11)", active: false, link: "/approvals" },
   ];
 
   return (
