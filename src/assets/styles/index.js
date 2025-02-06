@@ -19,6 +19,9 @@ export const styles = {
   logo: {
     marginBottom: "2rem",
   },
+  logoImg: {
+    width: "200px",
+  },
   nav: {
     flex: 1,
   },
