@@ -55,25 +55,25 @@ const CreateNewModal = ({ isOpen, onClose }) => {
       <DialogContent className="bg-white">
         <DialogHeader>
           <div className="mb-4">
-            <DialogTitle className="modal-title">+ Create New</DialogTitle>
+            <DialogTitle className="text-red-800">+ Create New</DialogTitle>
           </div>
         </DialogHeader>
 
         <div className="flex flex-col">
           <button
-            className="bg-gray-100 p-4 text-left rounded-md mb-4 text-xl"
+            className="bg-gray-100 p-6 text-left rounded-md mb-5 text-xl hover:text-white cursor-pointer hover:bg-red-800"
             onClick={() => console.log("Create Project")}
           >
             Create Project
           </button>
           <button
-            className="bg-gray-100 p-4 text-left rounded-md mb-4 text-xl"
+            className="bg-gray-100 p-6 text-left rounded-md mb-5 text-xl hover:text-white cursor-pointer hover:bg-red-800"
             onClick={() => console.log("Create Purchase Requisition")}
           >
             Create Purchase Requisition
           </button>
           <button
-            className="bg-gray-100 p-4 text-left rounded-md mb-4 text-xl"
+            className="bg-gray-100 p-6 text-left rounded-md mb-5 text-xl hover:text-white cursor-pointer hover:bg-red-800"
             onClick={() => console.log("Create Contract")}
           >
             Create Contract
