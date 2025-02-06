@@ -54,28 +54,26 @@ const CreateNewModal = ({ isOpen, onClose }) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <div className="modal-header">
+          <div className="mb-4">
             <DialogTitle className="modal-title">+ Create New</DialogTitle>
-            <button onClick={onClose} className="close-button">
-              <X size={20} />
-            </button>
           </div>
         </DialogHeader>
-        <div className="modal-options">
+
+        <div className="flex flex-col">
           <button
-            className="modal-option"
+            className="bg-gray-100 p-4 text-left rounded-md mb-4 text-xl"
             onClick={() => console.log("Create Project")}
           >
             Create Project
           </button>
           <button
-            className="modal-option"
+            className="bg-gray-100 p-4 text-left rounded-md mb-4 text-xl"
             onClick={() => console.log("Create Purchase Requisition")}
           >
             Create Purchase Requisition
           </button>
           <button
-            className="modal-option"
+            className="bg-gray-100 p-4 text-left rounded-md mb-4 text-xl"
             onClick={() => console.log("Create Contract")}
           >
             Create Contract

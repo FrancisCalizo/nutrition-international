@@ -5,13 +5,13 @@ export const styles = {
     backgroundColor: "#f3f4f6",
   },
   sidebar: {
-    width: "230px",
+    width: "270px",
     backgroundColor: "white",
     padding: "1.5rem",
     display: "flex",
     flexDirection: "column",
     position: "fixed",
-    height: "calc(100vh - 50px)",
+    height: "calc(100vh)",
     left: 0,
     top: 0,
     borderRight: "1px solid #e5e7eb",
@@ -53,7 +53,7 @@ export const styles = {
   fixedHeader: {
     position: "fixed",
     top: 0,
-    left: "278px",
+    left: "270px",
     right: 0,
     height: "80px",
     backgroundColor: "#f3f4f6",
@@ -66,7 +66,7 @@ export const styles = {
   },
   main: {
     flex: 1,
-    marginLeft: "260px",
+    marginLeft: "270px",
     marginTop: "80px",
     padding: "2rem",
     overflowY: "auto",
