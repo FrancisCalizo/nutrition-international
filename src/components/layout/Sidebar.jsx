@@ -1,28 +1,31 @@
 import { Link } from "react-router";
+import { useLocation } from "react-router";
 
 import logo from "../../assets/ni-logo.png";
 import { styles } from "../../assets/styles";
 
 export default function Sidebar() {
+  const { pathname } = useLocation();
+
   const menuItems = [
-    { icon: "⊞", label: "Dashboard", active: true, link: "/" },
-    { icon: "🎁", label: "Grants", active: false, link: "/grants" },
-    { icon: "📑", label: "Projects", active: false, link: "/projects" },
+    { icon: "⊞", label: "Dashboard", link: "/" },
+    { icon: "🎁", label: "Grants", link: "/grants" },
+    { icon: "📑", label: "Projects", link: "/projects" },
     {
       icon: "🔄",
       label: "Purchase Requisition",
-      active: false,
+
       link: "/purchase",
     },
     {
       icon: "📄",
       label: "Contract Management",
-      active: false,
+
       link: "/contract",
     },
-    { icon: "✈", label: "Milestones", active: false, link: "/milestones" },
-    { icon: "📋", label: "PRF", active: false, link: "/prf" },
-    { icon: "📝", label: "Approvals (11)", active: false, link: "/approvals" },
+    { icon: "✈", label: "Milestones", link: "/milestones" },
+    { icon: "📋", label: "PRF", link: "/prf" },
+    { icon: "📝", label: "Approvals (11)", link: "/approvals" },
   ];
 
   return (
@@ -34,9 +37,10 @@ export default function Sidebar() {
         {menuItems.map((item, index) => (
           <Link key={index} to={item.link} style={{ textDecoration: "none" }}>
             <div
+              className="hover:bg-gray-100"
               style={{
                 ...styles.navItem,
-                ...(item.active
+                ...(item.link === pathname
                   ? styles.navItemActive
                   : styles.navItemInactive),
               }}

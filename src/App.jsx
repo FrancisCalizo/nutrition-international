@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
+import { Routes, Route } from "react-router";
 import { useState } from "react";
 
 import Dashboard from "./components/layout/Dashboard";
@@ -22,27 +22,25 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <Router>
-      <div style={styles.layout}>
-        <Sidebar />
+    <div style={styles.layout}>
+      <Sidebar />
 
-        <Header setIsModalOpen={setIsModalOpen} />
+      <Header setIsModalOpen={setIsModalOpen} />
 
-        <CreateNew isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <CreateNew isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-        <Dashboard>
-          <Routes>
-            <Route path="/" element={<Overview />} />
-            <Route path="/grants" element={<Grants />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/purchase" element={<Purchase />} />
-            <Route path="/contract" element={<Contract />} />
-            <Route path="/milestones" element={<Milestones />} />
-            <Route path="/prf" element={<Prf />} />
-            <Route path="/approvals" element={<Approvals />} />
-          </Routes>
-        </Dashboard>
-      </div>
-    </Router>
+      <Dashboard>
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="/grants" element={<Grants />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/purchase" element={<Purchase />} />
+          <Route path="/contract" element={<Contract />} />
+          <Route path="/milestones" element={<Milestones />} />
+          <Route path="/prf" element={<Prf />} />
+          <Route path="/approvals" element={<Approvals />} />
+        </Routes>
+      </Dashboard>
+    </div>
   );
 }
