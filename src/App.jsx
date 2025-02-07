@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router";
 import { useState } from "react";
 
 import Dashboard from "./components/layout/Dashboard";
-import Header from "./components/layout/Header";
 import Sidebar from "./components/layout/Sidebar";
 
 import CreateNew from "./components/modals/CreateNew";
@@ -24,8 +23,6 @@ export default function App() {
   return (
     <div style={styles.layout}>
       <Sidebar />
-
-      <Header setIsModalOpen={setIsModalOpen} />
 
       <CreateNew isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 

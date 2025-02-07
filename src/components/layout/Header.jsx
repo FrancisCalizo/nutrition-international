@@ -1,7 +1,7 @@
 import { Bell } from "lucide-react";
 
 import { useLocation } from "react-router";
-import { styles } from "../../assets/styles";
+
 import path from "path";
 
 export default function Header({ setIsModalOpen }) {
@@ -14,8 +14,7 @@ export default function Header({ setIsModalOpen }) {
   const renderButton = () => {
     return (
       <button
-        className="bg-red-800"
-        style={styles.createButton}
+        className="bg-red-800 text-white py-2 px-4 rounded-md border-none cursor-pointer"
         onClick={handleClick}
       >
         + Create New
@@ -24,9 +23,9 @@ export default function Header({ setIsModalOpen }) {
   };
 
   return (
-    <div style={styles.fixedHeader}>
-      <h1 style={styles.welcomeText}>Welcome Hannah,</h1>
-      <div style={styles.headerRight}>
+    <div className="fixed top-0 left-[270px] right-0 h-[80px] bg-[#f3f4f6] flex justify-between items-center px-8 z-2 border-b border-[#e5e7eb]">
+      <h1 className="text-xl font-semibold">Welcome Hannah,</h1>
+      <div className="flex items-center gap-4">
         <Bell size={24} />
         {renderButton()}
       </div>

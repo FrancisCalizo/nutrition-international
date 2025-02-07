@@ -1,7 +1,9 @@
 {
   "references": [],
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
+    "checkJs": true,
+    "jsx": "react-jsx",
     "paths": {
       "@/*": ["./src/*"]
     }

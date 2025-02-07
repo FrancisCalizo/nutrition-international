@@ -1,6 +1,8 @@
 import { styles } from "../assets/styles";
+import PropTypes from "prop-types";
 
-export default function StatCard({ title, value, color, toggle }) {
+export default function StatCard(props) {
+  const { title, value, color, toggle } = props;
   return (
     <div style={{ ...styles.statCard, backgroundColor: color }}>
       <div
