@@ -82,7 +82,6 @@ export const styles = {
     gap: "1rem",
   },
   createButton: {
-    backgroundColor: "#b91c1c",
     color: "white",
     padding: "0.5rem 1rem",
     borderRadius: "0.5rem",
