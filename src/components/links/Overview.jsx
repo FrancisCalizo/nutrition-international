@@ -1,9 +1,16 @@
 import { PieChart, Pie, Cell } from "recharts";
+import { Bell } from "lucide-react";
+import { useState } from "react";
 
 import StatCard from "../StatCard";
+import CreateNew from "../modals/CreateNew";
+import Header from "../layout/Header";
+
 import { styles } from "../../assets/styles";
 
 export default function Overview() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const COLORS = ["#64a5f6", "#1e4d5f", "#f4a261"];
 
   const pieData = [
@@ -12,8 +19,27 @@ export default function Overview() {
     { name: "Inactive", value: 30 },
   ];
 
+  const OverviewHeader = () => {
+    return (
+      <>
+        <h1 className="text-2xl font-semibold">Welcome Hannah</h1>
+        <div className="flex items-center gap-4">
+          <Bell size={24} />
+          <button
+            className="bg-red-800 text-white py-2 px-4 rounded-md border-none cursor-pointer"
+            onClick={() => setIsModalOpen(true)}
+          >
+            +Create New
+          </button>
+        </div>
+      </>
+    );
+  };
+
   return (
-    <div>
+    <>
+      <Header>{OverviewHeader()}</Header>
+
       <h2 style={styles.sectionTitle}>Dashboard Overview</h2>
       <div style={styles.statsGrid}>
         <StatCard
@@ -65,6 +91,8 @@ export default function Overview() {
         <StatCard title="Inactive P-Req" value="9" color="#f4a261" />
         <StatCard title="Completed P-Req" value="29" color="#1e4d5f" />
       </div>
-    </div>
+
+      <CreateNew isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </>
   );
 }

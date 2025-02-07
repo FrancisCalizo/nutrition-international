@@ -8,6 +8,8 @@ import {
 import { useNavigate } from "react-router";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
+import Header from "../layout/Header";
+
 export default function Purchase() {
   const navigate = useNavigate();
 
@@ -53,8 +55,30 @@ export default function Purchase() {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  const PurchaseHeader = () => {
+    return (
+      <>
+        <h1 className="text-2xl font-semibold">Purchase Requisitions</h1>
+        <div className="flex items-center gap-4">
+          <button
+            className="bg-red-800 text-white py-2 px-4 rounded-md border-none cursor-pointer"
+            onClick={handleCreatePr}
+          >
+            Create Purchase Requisition
+          </button>
+        </div>
+      </>
+    );
+  };
+
+  const handleCreatePr = () => {
+    navigate(`/createpurchaserequisition`);
+  };
+
   return (
-    <div>
+    <>
+      <Header>{PurchaseHeader()}</Header>
+
       <table className="w-full">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -96,7 +120,8 @@ export default function Purchase() {
           {table.getRowModel().rows.map((row) => (
             <tr
               key={row.id}
-              onClick={() => handleRowClick(row.original.id)}
+              // @ts-ignore
+              onClick={() => handleRowClick(row.original.pReqCode)}
               className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
             >
               {row.getVisibleCells().map((cell) => (
@@ -108,7 +133,7 @@ export default function Purchase() {
           ))}
         </tbody>
       </table>
-    </div>
+    </>
   );
 }
 

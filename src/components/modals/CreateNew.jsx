@@ -10,9 +10,12 @@ import {
 export default function CreateNew({ isOpen, onClose }) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
+      {/* @ts-ignore */}
       <DialogContent className="bg-white">
+        {/* @ts-ignore */}
         <DialogHeader>
           <div className="mb-4">
+            {/* @ts-ignore */}
             <DialogTitle className="text-red-800">+ Create New</DialogTitle>
           </div>
         </DialogHeader>
