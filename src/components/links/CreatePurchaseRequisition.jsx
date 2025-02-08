@@ -1,6 +1,11 @@
-// @ts-nocheck
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,7 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CalendarIcon, ListTodo, RefreshCcw, PauseCircle } from "lucide-react";
+import {
+  CalendarIcon,
+  ListTodo,
+  RefreshCcw,
+  PauseCircle,
+  Plus,
+  Eye,
+} from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 const FormWizard = () => {
@@ -35,6 +47,12 @@ const FormWizard = () => {
     }
   };
 
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const renderStep = () => {
     switch (currentStep) {
       case 0:
@@ -49,7 +67,7 @@ const FormWizard = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6 mt-[-60px]">
+    <div className="mx-auto p-6 space-y-6 mt-[-60px]">
       <div>
         <h1 className="text-2xl font-semibold mb-1">
           Step {currentStep + 1} of {steps.length}: Create Purchase Requisition
@@ -63,13 +81,17 @@ const FormWizard = () => {
         {steps.map((step, index) => (
           <div
             key={index}
-            className={`flex flex-col items-center w-1/3 ${
-              index === currentStep ? "text-[#8B3E3E]" : "text-gray-400"
+            className={`flex flex-col pb-6  w-1/3 ${
+              index === currentStep ? "text-red-800 " : "text-gray-400"
+            } ${
+              currentStep >= index
+                ? "border-b-3 border-red-800"
+                : "border-b-3 border-garay-400"
             }`}
           >
             <div
-              className={`p-3 rounded-full mb-2 ${
-                index === currentStep ? "bg-[#8B3E3E]/10" : "bg-gray-100"
+              className={`p-3 rounded-full w-fit mb-2 ${
+                index === currentStep ? "bg-red-800/10" : "bg-gray-100"
               }`}
             >
               {step.icon}
@@ -79,90 +101,85 @@ const FormWizard = () => {
         ))}
       </div>
 
-      <Card className="p-6">{renderStep()}</Card>
+      <Card className="p-6 border-none">{renderStep()}</Card>
 
-      <Button
-        className="w-full bg-red-800 hover:bg-red-800/90 text-white"
-        onClick={handleContinue}
-      >
-        Continue
-      </Button>
+      <div className="flex gap-x-4">
+        {currentStep > 0 && (
+          <Button
+            className="w-full bg-red-800/30 hover:bg-red-800/20 text-red-800"
+            onClick={handleBack}
+          >
+            Back
+          </Button>
+        )}
+
+        <Button
+          className="w-full bg-red-800 hover:bg-red-800/90 text-white"
+          onClick={handleContinue}
+        >
+          Continue
+        </Button>
+      </div>
     </div>
   );
 };
 
 const PReqDetails = ({ projectFunds }) => {
+  const [selectVal, setSelectVal] = useState(null);
+
   return (
     <div className="space-y-6">
       <div>
         <label className="block text-sm font-medium mb-2">Select Project</label>
-        <Select defaultValue="2034">
+        <Select value={selectVal} onValueChange={setSelectVal}>
           <SelectTrigger>
             <SelectValue placeholder="Select a project" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-white">
             <SelectItem value="2034">2034 - VAS Supply Program</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <span className="text-sm">Project Fund Amount</span>
-          <span className="text-[#8B3E3E] font-medium">
-            ${projectFunds.projectFundAmount.toLocaleString()}
-          </span>
-          <Progress
-            value={100}
-            className="w-1/2 bg-[#8B3E3E]/20"
-            indicatorClassName="bg-[#8B3E3E]"
-          />
+      {selectVal && (
+        <div className="space-y-4 mt-10 mb-10">
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Project Fund Amount</span>
+            <span className="text-red-800 font-medium">
+              ${projectFunds.projectFundAmount.toLocaleString()}
+            </span>
+            <Progress value={100} className="w-1/2 bg-red-800/20" />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Soft Commitment</span>
+            <span className="text-[#FF6B6B] font-medium">
+              ${projectFunds.softCommitment.toLocaleString()}
+            </span>
+            <Progress value={25} className="w-1/2 bg-[#FF6B6B]/20" />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Hard Commitment</span>
+            <span className="text-[#4A90E2] font-medium">
+              ${projectFunds.hardCommitment.toLocaleString()}
+            </span>
+            <Progress value={34} className="w-1/2 bg-[#4A90E2]/20" />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Actual</span>
+            <span className="text-[#A463F2] font-medium">
+              ${projectFunds.actual.toLocaleString()}
+            </span>
+            <Progress value={12} className="w-1/2 bg-[#A463F2]/20" />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm">Balance/Valance</span>
+            <span className="text-[#00B5AD] font-medium">
+              ${projectFunds.balance.toLocaleString()}
+            </span>
+            <Progress value={29} className="w-1/2 bg-[#00B5AD]/20" />
+          </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-sm">Soft Commitment</span>
-          <span className="text-[#FF6B6B] font-medium">
-            ${projectFunds.softCommitment.toLocaleString()}
-          </span>
-          <Progress
-            value={25}
-            className="w-1/2 bg-[#FF6B6B]/20"
-            indicatorClassName="bg-[#FF6B6B]"
-          />
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-sm">Hard Commitment</span>
-          <span className="text-[#4A90E2] font-medium">
-            ${projectFunds.hardCommitment.toLocaleString()}
-          </span>
-          <Progress
-            value={34}
-            className="w-1/2 bg-[#4A90E2]/20"
-            indicatorClassName="bg-[#4A90E2]"
-          />
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-sm">Actual</span>
-          <span className="text-[#A463F2] font-medium">
-            ${projectFunds.actual.toLocaleString()}
-          </span>
-          <Progress
-            value={12}
-            className="w-1/2 bg-[#A463F2]/20"
-            indicatorClassName="bg-[#A463F2]"
-          />
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-sm">Balance/Valance</span>
-          <span className="text-[#00B5AD] font-medium">
-            ${projectFunds.balance.toLocaleString()}
-          </span>
-          <Progress
-            value={29}
-            className="w-1/2 bg-[#00B5AD]/20"
-            indicatorClassName="bg-[#00B5AD]"
-          />
-        </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -229,16 +246,287 @@ const PReqDetails = ({ projectFunds }) => {
   );
 };
 
-const CostEstimation = () => (
-  <div className="h-64 flex items-center justify-center text-gray-500">
-    Cost Estimation Form (Step 2)
-  </div>
-);
+const CostEstimation = () => {
+  const [items, setItems] = useState([
+    {
+      description: "",
+      unit: 1,
+      unitCost: 400.0,
+      currency: "USD",
+      amount: 400.0,
+      exchangeRate: 1.4,
+      contractTotal: 560,
+    },
+  ]);
 
-const Milestones = () => (
-  <div className="h-64 flex items-center justify-center text-gray-500">
-    Milestones Form (Step 3)
-  </div>
-);
+  const amountStatus = {
+    projectFundAmount: { value: 20000, color: "#8B3E3E", progress: 100 },
+    softCommitment: { value: 5200, color: "#FF6B6B", progress: 26 },
+    hardCommitment: { value: 3700, color: "#4A90E2", progress: 18.5 },
+    actual: { value: 1000, color: "#A463F2", progress: 5 },
+    balanceValance: { value: 9900, color: "#00B5AD", progress: 49.5 },
+  };
+
+  const addNewItem = () => {
+    setItems([
+      ...items,
+      {
+        description: "",
+        unit: 1,
+        unitCost: 0,
+        currency: "USD",
+        amount: 0,
+        exchangeRate: 1.4,
+        contractTotal: 0,
+      },
+    ]);
+  };
+
+  return (
+    <div className="space-y-8 p-6">
+      {/* Amount Status Section */}
+      <div>
+        <h2 className="text-xl font-semibold text-[#8B3E3E] mb-4">
+          Amount Status
+        </h2>
+        <Card className="p-6 space-y-4">
+          {Object.entries(amountStatus).map(
+            ([key, { value, color, progress }]) => (
+              <div key={key} className="flex items-center gap-4">
+                <span className="w-40 text-sm font-medium">
+                  {key
+                    .replace(/([A-Z])/g, " $1")
+                    .split(/(?=[A-Z])/)
+                    .join(" ")}
+                </span>
+                <div className="flex-1">
+                  <Progress
+                    value={progress}
+                    className="h-2"
+                    indicatorClassName={`bg-[${color}]`}
+                  />
+                </div>
+                <span className="w-24 text-right font-medium" style={{ color }}>
+                  ${value.toLocaleString()}
+                </span>
+              </div>
+            )
+          )}
+        </Card>
+      </div>
+
+      {/* Cost Estimation Section */}
+      <div>
+        <h2 className="text-xl font-semibold text-[#8B3E3E] mb-4">
+          Cost Estimation and Specification
+        </h2>
+        <Card className="bg-[#FDF6F6] p-6">
+          <div className="space-y-4">
+            {items.map((item, index) => (
+              <div key={index} className="grid grid-cols-6 gap-4 items-center">
+                <div className="col-span-2">
+                  <Input
+                    placeholder="Write here..."
+                    className="bg-white"
+                    value={item.description}
+                  />
+                </div>
+                <Input
+                  type="number"
+                  className="bg-white w-20"
+                  value={item.unit}
+                />
+                <Input
+                  type="number"
+                  className="bg-white w-28"
+                  value={item.unitCost}
+                />
+                <div className="flex gap-2 items-center">
+                  <Select defaultValue="USD">
+                    <SelectTrigger className="w-32 bg-white">
+                      <SelectValue placeholder="Currency" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="USD">US Dollars</SelectItem>
+                      <SelectItem value="CAD">CAD</SelectItem>
+                      <SelectItem value="EUR">EUR</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Input
+                    type="number"
+                    className="bg-white w-28"
+                    value={item.amount}
+                    readOnly
+                  />
+                </div>
+                <div className="flex gap-2 items-center">
+                  <Input
+                    type="number"
+                    className="bg-white w-20"
+                    value={item.exchangeRate}
+                  />
+                  <div className="bg-[#D1E9D5] px-4 py-2 rounded w-28 text-center">
+                    {item.contractTotal}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div className="flex justify-between mt-4">
+              <Button
+                variant="ghost"
+                className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Add Financial Coding
+              </Button>
+              <Button
+                onClick={addNewItem}
+                variant="ghost"
+                className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2"
+              >
+                <Plus className="h-4 w-4" />
+                Add More
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const Milestones = () => {
+  const data = [
+    {
+      fundingSource: "0143 - GAC - ISG 2019",
+      financialCoding: "4776-4568-0000-0143-5467",
+      total: 3500,
+    },
+    {
+      fundingSource: "0409 - GAC - 13M COVID Emergency",
+      financialCoding: "4776-4568-0000-0143-5467",
+      total: 1000,
+    },
+    {
+      fundingSource: "6501 - JPG - Vit A Malawi",
+      financialCoding: "4776-4568-0000-0143-5467",
+      total: 2000,
+    },
+  ];
+
+  const columnHelper = createColumnHelper();
+
+  const columns = [
+    columnHelper.accessor("fundingSource", {
+      header: "Funding Source",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("financialCoding", {
+      header: "Financial Coding",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("total", {
+      header: "Total (CAD)",
+      cell: (info) => `$${info.getValue().toLocaleString()}`,
+    }),
+    columnHelper.display({
+      id: "milestones",
+      header: "Milestones",
+      cell: () => (
+        <div className="flex gap-2">
+          <Button
+            variant="ghost"
+            className="text-red-700 hover:text-red-800 hover:bg-red-50"
+            size="sm"
+          >
+            <Plus className="w-4 h-4 mr-1" />
+            Add
+          </Button>
+          <Button variant="ghost" size="sm">
+            <Eye className="w-4 h-4" />
+          </Button>
+        </div>
+      ),
+    }),
+  ];
+
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  const total = data.reduce((sum, row) => sum + row.total, 0);
+
+  return (
+    <div className="max-w-5xl mx-auto p-6">
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle className="text-red-700">
+            Purchase Requisition Value
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div>
+            <h2 className="text-lg font-medium mb-4">Project Value</h2>
+            <Input value="$6,500.00" className="max-w-[200px]" readOnly />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-red-700">Define Milestone</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id} className="bg-red-700 text-white">
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className="px-4 py-3 text-left font-medium"
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr key={row.id} className="border-b">
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="px-4 py-3">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+                <tr className="font-medium">
+                  <td className="px-4 py-3">Total</td>
+                  <td></td>
+                  <td className="px-4 py-3">${total.toLocaleString()}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 export default FormWizard;
