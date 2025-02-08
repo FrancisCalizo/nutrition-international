@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   CalendarIcon,
   ListTodo,
@@ -101,7 +102,7 @@ const FormWizard = () => {
         ))}
       </div>
 
-      <Card className="p-6 border-none">{renderStep()}</Card>
+      <Card className="p-6 border-none shadow-none">{renderStep()}</Card>
 
       <div className="flex gap-x-4">
         {currentStep > 0 && (
@@ -132,7 +133,7 @@ const PReqDetails = ({ projectFunds }) => {
       <div>
         <label className="block text-sm font-medium mb-2">Select Project</label>
         <Select value={selectVal} onValueChange={setSelectVal}>
-          <SelectTrigger>
+          <SelectTrigger className="bg-white">
             <SelectValue placeholder="Select a project" />
           </SelectTrigger>
           <SelectContent className="bg-white">
@@ -142,37 +143,37 @@ const PReqDetails = ({ projectFunds }) => {
       </div>
 
       {selectVal && (
-        <div className="space-y-4 mt-10 mb-10">
+        <div className="space-y-4 mt-10 mb-10 bg-white p-6 rounded-lg">
           <div className="flex justify-between items-center">
-            <span className="text-sm">Project Fund Amount</span>
+            <span className="text-sm w-[200px]">Project Fund Amount</span>
             <span className="text-red-800 font-medium">
               ${projectFunds.projectFundAmount.toLocaleString()}
             </span>
             <Progress value={100} className="w-1/2 bg-red-800/20" />
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-sm">Soft Commitment</span>
+            <span className="text-sm w-[200px]">Soft Commitment</span>
             <span className="text-[#FF6B6B] font-medium">
               ${projectFunds.softCommitment.toLocaleString()}
             </span>
             <Progress value={25} className="w-1/2 bg-[#FF6B6B]/20" />
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-sm">Hard Commitment</span>
+            <span className="text-sm w-[200px]">Hard Commitment</span>
             <span className="text-[#4A90E2] font-medium">
               ${projectFunds.hardCommitment.toLocaleString()}
             </span>
             <Progress value={34} className="w-1/2 bg-[#4A90E2]/20" />
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-sm">Actual</span>
+            <span className="text-sm w-[200px]">Actual</span>
             <span className="text-[#A463F2] font-medium">
               ${projectFunds.actual.toLocaleString()}
             </span>
             <Progress value={12} className="w-1/2 bg-[#A463F2]/20" />
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-sm">Balance/Valance</span>
+            <span className="text-sm w-[200px]">Balance/Valance</span>
             <span className="text-[#00B5AD] font-medium">
               ${projectFunds.balance.toLocaleString()}
             </span>
@@ -184,11 +185,11 @@ const PReqDetails = ({ projectFunds }) => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-2">Category</label>
-          <Select>
-            <SelectTrigger>
+          <Select defaultValue={null}>
+            <SelectTrigger className="bg-white">
               <SelectValue placeholder="Direct, Indirect, Shared indirect (country)..." />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white">
               <SelectItem value="direct">Direct</SelectItem>
               <SelectItem value="indirect">Indirect</SelectItem>
               <SelectItem value="shared">Shared Indirect (country)</SelectItem>
@@ -196,21 +197,23 @@ const PReqDetails = ({ projectFunds }) => {
           </Select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">P-Req Number</label>
+          <label className="block text-sm font-medium mb-2">
+            P-Req Number
+            <span className="text-xs text-gray-500 ml-1">
+              (use for Pure only)
+            </span>
+          </label>
           <Input placeholder="0000" className="bg-white" />
-          <span className="text-xs text-gray-500 mt-1">
-            (use for Pure only)
-          </span>
         </div>
       </div>
 
       <div>
         <label className="block text-sm font-medium mb-2">Requester</label>
-        <Select>
-          <SelectTrigger>
+        <Select defaultValue={null}>
+          <SelectTrigger className="bg-white">
             <SelectValue placeholder="Mohammad Alathamena" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-white">
             <SelectItem value="mohammad">Mohammad Alathamena</SelectItem>
           </SelectContent>
         </Select>
@@ -221,11 +224,11 @@ const PReqDetails = ({ projectFunds }) => {
           <label className="block text-sm font-medium mb-2">
             Procurement Type
           </label>
-          <Select>
-            <SelectTrigger>
+          <Select defaultValue={null}>
+            <SelectTrigger className="bg-white">
               <SelectValue placeholder="Procured Services (Services, Events, Meetings)" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white">
               <SelectItem value="services">
                 Procured Services (Services, Events, Meetings)
               </SelectItem>
@@ -264,7 +267,7 @@ const CostEstimation = () => {
     softCommitment: { value: 5200, color: "#FF6B6B", progress: 26 },
     hardCommitment: { value: 3700, color: "#4A90E2", progress: 18.5 },
     actual: { value: 1000, color: "#A463F2", progress: 5 },
-    balanceValance: { value: 9900, color: "#00B5AD", progress: 49.5 },
+    balanceVariance: { value: 9900, color: "#00B5AD", progress: 49.5 },
   };
 
   const addNewItem = () => {
@@ -282,68 +285,91 @@ const CostEstimation = () => {
     ]);
   };
 
+  const addFinancialCoding = () => {
+    alert("addFinancialCoding");
+  };
+
+  const handleUploadSupportingDocuments = () => {
+    alert("handleUploadSupportingDocuments");
+  };
+
   return (
     <div className="space-y-8 p-6">
       {/* Amount Status Section */}
-      <div>
+      <div className="bg-white p-6 rounded-lg">
         <h2 className="text-xl font-semibold text-[#8B3E3E] mb-4">
           Amount Status
         </h2>
-        <Card className="p-6 space-y-4">
+        <Card className="p-6 space-y-4 border-none shadow-none">
           {Object.entries(amountStatus).map(
-            ([key, { value, color, progress }]) => (
-              <div key={key} className="flex items-center gap-4">
-                <span className="w-40 text-sm font-medium">
-                  {key
-                    .replace(/([A-Z])/g, " $1")
-                    .split(/(?=[A-Z])/)
-                    .join(" ")}
-                </span>
-                <div className="flex-1">
-                  <Progress
-                    value={progress}
-                    className="h-2"
-                    indicatorClassName={`bg-[${color}]`}
-                  />
+            ([key, { value, color, progress }]) => {
+              return (
+                <div key={key} className="flex items-center gap-4">
+                  <span className="w-40 text-sm font-medium capitalize">
+                    {key
+                      .replace(/([A-Z])/g, " $1")
+                      .split(/(?=[A-Z])/)
+                      .join(" ")}
+                  </span>
+                  <div className="flex-1">
+                    <Progress value={progress} style={{ background: color }} />
+                  </div>
+                  <span
+                    className="w-24 text-right font-medium"
+                    style={{ color }}
+                  >
+                    ${value.toLocaleString()}
+                  </span>
                 </div>
-                <span className="w-24 text-right font-medium" style={{ color }}>
-                  ${value.toLocaleString()}
-                </span>
-              </div>
-            )
+              );
+            }
           )}
         </Card>
       </div>
 
       {/* Cost Estimation Section */}
-      <div>
+      <div className="bg-white p-6 rounded-md">
         <h2 className="text-xl font-semibold text-[#8B3E3E] mb-4">
           Cost Estimation and Specification
         </h2>
-        <Card className="bg-[#FDF6F6] p-6">
-          <div className="space-y-4">
-            {items.map((item, index) => (
-              <div key={index} className="grid grid-cols-6 gap-4 items-center">
+        {items.map((item, index) => (
+          <Card className="bg-[#FDF6F6] p-6 mb-4 border-none" key={index}>
+            <div className="space-y-4">
+              <div className="grid grid-cols-12 gap-4 items-center">
                 <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">
+                    Description
+                  </label>
                   <Input
                     placeholder="Write here..."
-                    className="bg-white"
+                    className="bg-white border-none"
                     value={item.description}
                   />
                 </div>
-                <Input
-                  type="number"
-                  className="bg-white w-20"
-                  value={item.unit}
-                />
-                <Input
-                  type="number"
-                  className="bg-white w-28"
-                  value={item.unitCost}
-                />
-                <div className="flex gap-2 items-center">
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">Unit</label>
+                  <Input
+                    type="number"
+                    className="bg-white w-20 border-none"
+                    value={item.unit}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">
+                    Unit Cost
+                  </label>
+                  <Input
+                    type="number"
+                    className="bg-white w-28 border-none"
+                    value={item.unitCost}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">
+                    Select Project
+                  </label>
                   <Select defaultValue="USD">
-                    <SelectTrigger className="w-32 bg-white">
+                    <SelectTrigger className="w-32 bg-white border-none">
                       <SelectValue placeholder="Currency" />
                     </SelectTrigger>
                     <SelectContent>
@@ -352,46 +378,82 @@ const CostEstimation = () => {
                       <SelectItem value="EUR">EUR</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Input
-                    type="number"
-                    className="bg-white w-28"
-                    value={item.amount}
-                    readOnly
-                  />
                 </div>
-                <div className="flex gap-2 items-center">
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">
+                    Exchange Rate
+                  </label>
                   <Input
                     type="number"
-                    className="bg-white w-20"
+                    className="bg-white w-20 border-none"
                     value={item.exchangeRate}
                   />
+                </div>
+
+                <div className="col-span-2">
+                  <label className="block text-sm font-medium mb-2">
+                    Exchange Rate
+                  </label>
                   <div className="bg-[#D1E9D5] px-4 py-2 rounded w-28 text-center">
                     {item.contractTotal}
                   </div>
                 </div>
               </div>
-            ))}
-
-            <div className="flex justify-between mt-4">
-              <Button
-                variant="ghost"
-                className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Add Financial Coding
-              </Button>
-              <Button
-                onClick={addNewItem}
-                variant="ghost"
-                className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Add More
-              </Button>
+              <div className="flex justify-end mt-4">
+                <Button
+                  variant="ghost"
+                  className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2"
+                  onClick={addFinancialCoding}
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Financial Coding
+                </Button>
+              </div>
             </div>
+          </Card>
+        ))}
+
+        <div className="flex justify-end mt-4">
+          <Button
+            onClick={addNewItem}
+            variant="ghost"
+            className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 "
+          >
+            <Plus className="h-4 w-4" />
+            Add More
+          </Button>
+        </div>
+
+        <Card className="bg-teal-100 p-6 mb-4 border-none flex justify-end mt-14">
+          <div className="space-y-4 ">
+            <label className="block text-sm font-medium mb-2">
+              Contract Total (CAD)
+            </label>
+            <Input
+              value="$6,500.00"
+              className="max-w-[200px] bg-white border-none"
+              readOnly
+            />
           </div>
         </Card>
       </div>
+
+      <div className="flex justify-between">
+        <div className="font-bold text-lg">Upload Supporting Documents</div>
+        <Button
+          onClick={handleUploadSupportingDocuments}
+          variant="outline"
+          className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 "
+        >
+          <Plus className="h-4 w-4" />
+        </Button>
+      </div>
+
+      <label className="block text-sm font-medium mb-2">
+        Input goods technical specification
+      </label>
+      <Textarea className="bg-white border-none" rows={10} />
     </div>
   );
 };
@@ -461,30 +523,39 @@ const Milestones = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-6">
-      <Card className="mb-8">
+      <Card className="mb-8 border-none bg-white">
         <CardHeader>
-          <CardTitle className="text-red-700">
+          <CardTitle className="text-red-700 text-lg">
             Purchase Requisition Value
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div>
-            <h2 className="text-lg font-medium mb-4">Project Value</h2>
-            <Input value="$6,500.00" className="max-w-[200px]" readOnly />
+            <label className="block text-sm font-medium mb-2">
+              Project Value
+            </label>
+
+            <Input
+              value="$6,500.00"
+              className=" bg-white border-gray-300 "
+              readOnly
+            />
           </div>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border-none bg-white">
         <CardHeader>
-          <CardTitle className="text-red-700">Define Milestone</CardTitle>
+          <CardTitle className="text-red-700 text-lg">
+            Define Milestone
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
                 {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id} className="bg-red-700 text-white">
+                  <tr key={headerGroup.id} className="bg-red-800 text-white">
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
@@ -503,9 +574,12 @@ const Milestones = () => {
               </thead>
               <tbody>
                 {table.getRowModel().rows.map((row) => (
-                  <tr key={row.id} className="border-b">
+                  <tr key={row.id}>
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-4 py-3">
+                      <td
+                        key={cell.id}
+                        className="px-4 py-3 border-r border-gray-200"
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()

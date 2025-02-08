@@ -72,14 +72,14 @@ export default function Purchase() {
   };
 
   const handleCreatePr = () => {
-    navigate(`/createpurchaserequisition`);
+    navigate(`/purchase/createpurchaserequisition`);
   };
 
   return (
     <>
       <Header>{PurchaseHeader()}</Header>
 
-      <table className="w-full">
+      <table className="w-full ">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="bg-red-800 text-white">
@@ -122,7 +122,7 @@ export default function Purchase() {
               key={row.id}
               // @ts-ignore
               onClick={() => handleRowClick(row.original.pReqCode)}
-              className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+              className="border-b border-gray-200 hover:bg-gray-50 cursor-pointer bg-white"
             >
               {row.getVisibleCells().map((cell) => (
                 <td key={cell.id} className="px-4 py-3 text-sm text-gray-900">

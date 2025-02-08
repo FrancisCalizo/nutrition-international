@@ -27,7 +27,7 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/purchase" element={<Purchase />} />
           <Route
-            path="/createpurchaserequisition"
+            path="/purchase/createpurchaserequisition"
             element={<CreatePurchaseRequisition />}
           />
           <Route path="/contract" element={<Contract />} />

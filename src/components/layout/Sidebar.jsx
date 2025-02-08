@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { useLocation } from "react-router";
 
 // @ts-ignore
-import logo from "../../../public/ni-logo.png";
+import logo from "../../assets/img/ni-logo.png";
 import { styles } from "../../assets/styles";
 
 export default function Sidebar() {
@@ -29,6 +29,18 @@ export default function Sidebar() {
     { icon: "📝", label: "Approvals (11)", link: "/approvals" },
   ];
 
+  const handleLinkColor = (link) => {
+    if (link === "/") {
+      if (link === pathname) {
+        return styles.navItemActive;
+      }
+      return styles.navItemInactive;
+    }
+
+    return pathname.includes(link)
+      ? styles.navItemActive
+      : styles.navItemInactive;
+  };
   return (
     <div className="w-[270px] bg-white p-6 flex flex-col fixed h-[calc(100vh)] left-0 top-0 border-r border-gray-200">
       <div style={styles.logo}>
@@ -41,9 +53,7 @@ export default function Sidebar() {
               className="hover:bg-gray-100"
               style={{
                 ...styles.navItem,
-                ...(item.link === pathname
-                  ? styles.navItemActive
-                  : styles.navItemInactive),
+                ...handleLinkColor(item.link),
               }}
             >
               <span style={styles.icon}>{item.icon}</span>
