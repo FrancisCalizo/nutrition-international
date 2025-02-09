@@ -102,7 +102,7 @@ const FormWizard = () => {
         ))}
       </div>
 
-      <Card className="p-6 border-none shadow-none">{renderStep()}</Card>
+      <Card className="border-none shadow-none">{renderStep()}</Card>
 
       <div className="flex gap-x-4">
         {currentStep > 0 && (
@@ -294,7 +294,7 @@ const CostEstimation = () => {
   };
 
   return (
-    <div className="space-y-8 p-6">
+    <div className="space-y-8 ">
       {/* Amount Status Section */}
       <div className="bg-white p-6 rounded-lg">
         <h2 className="text-xl font-semibold text-[#8B3E3E] mb-4">
@@ -522,7 +522,7 @@ const Milestones = () => {
   const total = data.reduce((sum, row) => sum + row.total, 0);
 
   return (
-    <div className="max-w-5xl mx-auto p-6">
+    <div>
       <Card className="mb-8 border-none bg-white">
         <CardHeader>
           <CardTitle className="text-red-700 text-lg">
