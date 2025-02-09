@@ -8,6 +8,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
 import {
   Select,
   SelectContent,
@@ -15,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import {
   CalendarIcon,
   ListTodo,
@@ -24,7 +25,6 @@ import {
   Plus,
   Eye,
 } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 
 const FormWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);

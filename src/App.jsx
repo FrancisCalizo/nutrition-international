@@ -6,12 +6,13 @@ import Sidebar from "./components/layout/Sidebar";
 import Overview from "./components/links/Overview";
 import Grants from "./components/links/Grants";
 import Projects from "./components/links/Projects";
-import Purchase from "./components/links/Purchase";
+import Purchase from "./components/links/purchaseRequisition/Purchase";
 import Contract from "./components/links/Contract";
 import Milestones from "./components/links/Milestones";
 import Prf from "./components/links/Prf";
 import Approvals from "./components/links/Approvals";
-import CreatePurchaseRequisition from "./components/links/CreatePurchaseRequisition";
+import CreatePurchaseRequisition from "./components/links/purchaseRequisition/CreatePurchaseRequisition";
+import PurchaseDetail from "./components/links/purchaseRequisition/PurchaseDetail";
 
 import { styles } from "./assets/styles";
 
@@ -30,6 +31,7 @@ export default function App() {
             path="/purchase/createpurchaserequisition"
             element={<CreatePurchaseRequisition />}
           />
+          <Route path="/purchase/:id" element={<PurchaseDetail />} />
           <Route path="/contract" element={<Contract />} />
           <Route path="/milestones" element={<Milestones />} />
           <Route path="/prf" element={<Prf />} />

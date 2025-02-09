@@ -8,13 +8,13 @@ import {
 import { useNavigate } from "react-router";
 import { ChevronUp, ChevronDown } from "lucide-react";
 
-import Header from "../layout/Header";
+import Header from "../../layout/Header";
 
 export default function Purchase() {
   const navigate = useNavigate();
 
   const handleRowClick = (id) => {
-    navigate(`/procurement/${id}`);
+    navigate(`/purchase/${id}`);
   };
 
   const columns = [
