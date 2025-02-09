@@ -25,9 +25,16 @@ import {
   Plus,
   Eye,
 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const FormWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
+
   const [projectFunds, setProjectFunds] = useState({
     projectFundAmount: 20000,
     softCommitment: 5000,
@@ -35,12 +42,6 @@ const FormWizard = () => {
     actual: 2400,
     balance: 5800,
   });
-
-  const steps = [
-    { title: "P-Req Details", icon: <ListTodo className="h-5 w-5" /> },
-    { title: "Cost Estimation", icon: <RefreshCcw className="h-5 w-5" /> },
-    { title: "Milestones", icon: <PauseCircle className="h-5 w-5" /> },
-  ];
 
   const handleContinue = () => {
     if (currentStep < steps.length - 1) {
@@ -114,16 +115,80 @@ const FormWizard = () => {
           </Button>
         )}
 
-        <Button
-          className="w-full bg-red-800 hover:bg-red-800/90 text-white"
-          onClick={handleContinue}
-        >
-          Continue
-        </Button>
+        {currentStep === 2 && (
+          <Button className="w-full bg-red-800 hover:bg-red-800/90 text-white">
+            Submit
+          </Button>
+        )}
+
+        {currentStep !== 2 && (
+          <Button
+            className="w-full bg-red-800 hover:bg-red-800/90 text-white"
+            onClick={handleContinue}
+          >
+            Continue
+          </Button>
+        )}
       </div>
     </div>
   );
 };
+
+function SubmitApprovalModal({ isOpen, onClose }) {
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      {/* @ts-ignore */}
+      <DialogContent className="bg-white min-w-xl">
+        {/* @ts-ignore */}
+        <DialogHeader>
+          <div className="mb-4">
+            {/* @ts-ignore */}
+            <DialogTitle className="text-black">Approval Stage</DialogTitle>
+          </div>
+        </DialogHeader>
+
+        <div className="p-4">
+          <div className="max-w-md mx-auto p-4">
+            <div className="relative">
+              {/* Vertical Line */}
+              <div className="absolute left-2.5 top-0 w-1 h-full bg-gray-200"></div>
+
+              {approvals.map((approval, index) => (
+                <div key={index} className="flex items-center mb-6 relative">
+                  {/* Progress Indicator */}
+                  <div className="relative z-10">
+                    <div
+                      className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                        approval.completed ? "bg-orange-500" : "bg-gray-300"
+                      }`}
+                    >
+                      {approval.completed && (
+                        <div className="absolute left-3 w-0.5 h-full bg-orange-500"></div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Approval Details */}
+                  <div className="ml-4 flex-1">
+                    <p className="text-gray-500 text-sm uppercase">
+                      {approval.role}
+                    </p>
+                    <p className="font-semibold text-lg">{approval.name}</p>
+                  </div>
+
+                  {/* Status Badge */}
+                  <div className="bg-orange-100 text-orange-500 text-sm px-3 py-1 rounded-md">
+                    {approval.status}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 const PReqDetails = ({ projectFunds }) => {
   const [selectVal, setSelectVal] = useState(null);
@@ -604,3 +669,30 @@ const Milestones = () => {
 };
 
 export default FormWizard;
+
+const approvals = [
+  {
+    role: "PO",
+    name: "John F. Samuel",
+    status: "Pending Approval",
+    completed: true,
+  },
+  {
+    role: "GAD",
+    name: "Josiah Messaich",
+    status: "Pending Approval",
+    completed: false,
+  },
+  {
+    role: "CFO",
+    name: "Moses Blake",
+    status: "Pending Approval",
+    completed: false,
+  },
+];
+
+const steps = [
+  { title: "P-Req Details", icon: <ListTodo className="h-5 w-5" /> },
+  { title: "Cost Estimation", icon: <RefreshCcw className="h-5 w-5" /> },
+  { title: "Milestones", icon: <PauseCircle className="h-5 w-5" /> },
+];
