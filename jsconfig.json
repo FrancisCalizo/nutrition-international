@@ -1,6 +1,7 @@
 {
   "references": [],
   "compilerOptions": {
+    "moduleResolution": "Node",
     "baseUrl": ".",
     "checkJs": true,
     "jsx": "react-jsx",
