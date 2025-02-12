@@ -152,7 +152,7 @@ export default function PurchaseDetail() {
           <div className="p-4">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b">
+                <tr className="border-b ">
                   <th className="text-left p-2">Year</th>
                   <th className="text-left p-2">Months</th>
                   <th className="text-left p-2">Value</th>
@@ -161,8 +161,8 @@ export default function PurchaseDetail() {
               </thead>
               <tbody>
                 {transactions.map((transaction, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="p-2">
+                  <tr key={index}>
+                    <td className="p-4">
                       <Select defaultValue={transaction.year.toString()}>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select year" />
@@ -279,7 +279,7 @@ export default function PurchaseDetail() {
           <TabsList>
             <TabsTrigger
               value="details"
-              className={`px-6 py-2 text-sm font-medium ${
+              className={`px-6 py-2 text-sm font-medium cursor-pointer ${
                 activeTab === "details"
                   ? "text-black border-b-2 border-red-800"
                   : "text-gray-400"
@@ -290,7 +290,7 @@ export default function PurchaseDetail() {
             </TabsTrigger>
             <TabsTrigger
               value="contract"
-              className={`px-6 py-2 text-sm font-medium ${
+              className={`px-6 py-2 text-sm font-medium cursor-pointer ${
                 activeTab === "contract"
                   ? "text-black border-b-2 border-red-800"
                   : "text-gray-400"

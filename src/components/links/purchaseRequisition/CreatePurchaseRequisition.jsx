@@ -25,6 +25,7 @@ import {
   PauseCircle,
   Plus,
   Eye,
+  Trash2,
 } from "lucide-react";
 import {
   Dialog,
@@ -367,6 +368,8 @@ const PReqDetails = ({ projectFunds }) => {
 };
 
 const CostEstimation = () => {
+  const [isFinCodingModalOpen, setIsFinCodingModalOpen] = useState(false);
+  const [isUploadSupportingDocs, setIsUploadSupportingDocs] = useState(false);
   const [items, setItems] = useState([
     {
       description: "",
@@ -402,12 +405,8 @@ const CostEstimation = () => {
     ]);
   };
 
-  const addFinancialCoding = () => {
-    alert("addFinancialCoding");
-  };
-
   const handleUploadSupportingDocuments = () => {
-    alert("handleUploadSupportingDocuments");
+    setIsUploadSupportingDocs(true);
   };
 
   return (
@@ -520,8 +519,8 @@ const CostEstimation = () => {
               <div className="flex justify-end mt-4">
                 <Button
                   variant="ghost"
-                  className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2"
-                  onClick={addFinancialCoding}
+                  className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 cursor-pointer"
+                  onClick={() => setIsFinCodingModalOpen(true)}
                 >
                   <Plus className="h-4 w-4" />
                   Add Financial Coding
@@ -535,7 +534,7 @@ const CostEstimation = () => {
           <Button
             onClick={addNewItem}
             variant="ghost"
-            className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 "
+            className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 cursor-pointer"
           >
             <Plus className="h-4 w-4" />
             Add More
@@ -561,16 +560,41 @@ const CostEstimation = () => {
         <Button
           onClick={handleUploadSupportingDocuments}
           variant="outline"
-          className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 "
+          className="text-[#8B3E3E] hover:text-[#8B3E3E]/80 gap-2 cursor-pointer"
         >
           <Plus className="h-4 w-4" />
         </Button>
       </div>
 
+      {isUploadSupportingDocs && (
+        <Card className="bg-teal-100 p-6 mb-4 border-none mt-14 flex justify-between">
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Documents Title
+            </label>
+            <Input className="max-w-[200px] bg-white border-none" readOnly />
+            <div className="underline mt-2"> Terms_of_reference.pdf</div>
+          </div>
+          <div>
+            <button
+              className="bg-red-800 p-2 rounded-md text-white cursor-pointer"
+              onClick={() => setIsUploadSupportingDocs(false)}
+            >
+              <Trash2 className="text-sm" />
+            </button>
+          </div>
+        </Card>
+      )}
+
       <label className="block text-sm font-medium mb-2">
         Input goods technical specification
       </label>
       <Textarea className="bg-white border-none" rows={10} />
+
+      <FinancialCodingModal
+        isOpen={isFinCodingModalOpen}
+        onClose={() => setIsFinCodingModalOpen(false)}
+      />
     </div>
   );
 };
@@ -719,6 +743,62 @@ const Milestones = () => {
     </div>
   );
 };
+
+function FinancialCodingModal({ isOpen, onClose }) {
+  const handleAddCoding = () => {
+    onClose();
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="bg-white p-8 max-w-5xl">
+        <DialogHeader>
+          <div className="mb-4">
+            <DialogTitle>Financial Coding</DialogTitle>
+          </div>
+        </DialogHeader>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+          {financialCodingInputs.map((e) => (
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-900">
+                {e}
+              </label>
+              <Input
+                type="text"
+                className="bg-gray-50 text-lg font-medium text-gray-900"
+              />
+            </div>
+          ))}
+        </div>
+
+        <Button
+          className="w-full bg-red-800 hover:bg-red-800/90 text-white"
+          onClick={handleAddCoding}
+        >
+          Add Coding
+        </Button>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+const financialCodingInputs = [
+  "Donor Grant",
+  "Natural Account",
+  "Department",
+  "Cost-Center",
+  "Expense Category",
+  "Fund Budget Line",
+  "Area of Work",
+  "Program",
+  "Project",
+  "Contract",
+  "Activity",
+  "Location",
+  "Area",
+  "Restriction",
+];
 
 export default FormWizard;
 
