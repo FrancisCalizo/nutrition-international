@@ -13,6 +13,7 @@ import Prf from "./components/links/Prf";
 import Approvals from "./components/links/Approvals";
 import CreatePurchaseRequisition from "./components/links/purchaseRequisition/CreatePurchaseRequisition";
 import PurchaseDetail from "./components/links/purchaseRequisition/PurchaseDetail";
+import PurchaseReqCreated from "./components/links/purchaseRequisition/PurchaseReqCreated";
 import PRMilestone from "./components/links/purchaseRequisition/PRMilestone";
 
 import { styles } from "./assets/styles";
@@ -31,6 +32,10 @@ export default function App() {
           <Route
             path="/purchase/createpurchaserequisition"
             element={<CreatePurchaseRequisition />}
+          />
+          <Route
+            path="/purchase/purchasereqsuccess"
+            element={<PurchaseReqCreated />}
           />
           <Route path="/purchase/:id" element={<PurchaseDetail />} />
           <Route path="/purchase/:id/milestone" element={<PRMilestone />} />

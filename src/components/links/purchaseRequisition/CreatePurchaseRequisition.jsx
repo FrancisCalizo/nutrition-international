@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import {
   createColumnHelper,
   flexRender,
@@ -35,36 +36,21 @@ import {
 const FormWizard = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const [projectFunds, setProjectFunds] = useState({
-    projectFundAmount: 20000,
-    softCommitment: 5000,
-    hardCommitment: 6800,
-    actual: 2400,
-    balance: 5800,
-  });
-
   const handleContinue = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
+    } else if (currentStep === 2) {
+      setCurrentStep(3);
+    } else {
+      setCurrentStep(4);
     }
   };
 
   const handleBack = () => {
-    if (currentStep > 0) {
+    if (currentStep > 0 && currentStep < steps.length) {
       setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const renderStep = () => {
-    switch (currentStep) {
-      case 0:
-        return <PReqDetails projectFunds={projectFunds} />;
-      case 1:
-        return <CostEstimation />;
-      case 2:
-        return <Milestones />;
-      default:
-        return null;
+    } else {
+      setCurrentStep(1);
     }
   };
 
@@ -72,7 +58,8 @@ const FormWizard = () => {
     <div className="mx-auto p-6 space-y-6 mt-[-60px]">
       <div>
         <h1 className="text-2xl font-semibold mb-1">
-          Step {currentStep + 1} of {steps.length}: Create Purchase Requisition
+          Step {currentStep < steps.length ? currentStep + 1 : 3} of{" "}
+          {steps.length}: Create Purchase Requisition
         </h1>
         <p className="text-gray-500 text-sm">
           This form autosaves when you continue
@@ -103,7 +90,13 @@ const FormWizard = () => {
         ))}
       </div>
 
-      <Card className="border-none shadow-none">{renderStep()}</Card>
+      <Card className="border-none shadow-none">
+        {currentStep === 0 && <PReqDetails projectFunds={projectFunds} />}
+        {currentStep === 1 && <CostEstimation />}
+        {currentStep === 2 && <Milestones />}
+        {currentStep === 3 && <Milestones />}
+        {currentStep === 4 && <Milestones />}
+      </Card>
 
       <div className="flex gap-x-4">
         {currentStep > 0 && (
@@ -115,40 +108,56 @@ const FormWizard = () => {
           </Button>
         )}
 
-        {currentStep === 2 && (
-          <Button className="w-full bg-red-800 hover:bg-red-800/90 text-white">
-            Submit
-          </Button>
-        )}
-
-        {currentStep !== 2 && (
-          <Button
-            className="w-full bg-red-800 hover:bg-red-800/90 text-white"
-            onClick={handleContinue}
-          >
-            Continue
-          </Button>
-        )}
+        <Button
+          className="w-full bg-red-800 hover:bg-red-800/90 text-white"
+          onClick={handleContinue}
+        >
+          {currentStep === 2 ? "Submit" : "Continue"}
+        </Button>
       </div>
+
+      <SubmitApprovalModal
+        isOpen={currentStep === 3}
+        onClose={() => setCurrentStep(2)}
+        handleContinue={handleContinue}
+      />
+
+      <ConfirmationModal
+        isOpen={currentStep === 4}
+        onClose={() => setCurrentStep(2)}
+        setCurrentStep={setCurrentStep}
+      />
     </div>
   );
 };
 
-function SubmitApprovalModal({ isOpen, onClose }) {
+function SubmitApprovalModal({ isOpen, onClose, handleContinue }) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      {/* @ts-ignore */}
       <DialogContent className="bg-white min-w-xl">
-        {/* @ts-ignore */}
         <DialogHeader>
           <div className="mb-4">
-            {/* @ts-ignore */}
-            <DialogTitle className="text-black">Approval Stage</DialogTitle>
+            <DialogTitle className="text-black">Approval</DialogTitle>
           </div>
         </DialogHeader>
 
         <div className="p-4">
-          <div className="max-w-md mx-auto p-4">
+          <div className="mx-auto">
+            <label className="block text-sm font-medium mb-4">
+              Purchase Requisition Value
+            </label>
+
+            <Input
+              value="$6,500.00"
+              className="bg-gray-200/30 border-none py-8 px-6"
+              readOnly
+            />
+
+            <div className="block text-md font-medium mt-8 mb-8">
+              Based on the value of this project, this request has to pass
+              through:
+            </div>
+
             <div className="relative">
               {/* Vertical Line */}
               <div className="absolute left-2.5 top-0 w-1 h-full bg-gray-200"></div>
@@ -182,6 +191,49 @@ function SubmitApprovalModal({ isOpen, onClose }) {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <Button
+              className="w-full bg-red-800 hover:bg-red-800/90 text-white"
+              onClick={handleContinue}
+            >
+              Continue
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ConfirmationModal({ isOpen, onClose, setCurrentStep }) {
+  const navigate = useNavigate();
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="bg-white min-w-lg">
+        <DialogHeader>
+          <div className="mb-4">
+            <DialogTitle className="text-black">Confirmation</DialogTitle>
+          </div>
+        </DialogHeader>
+
+        <div className="p-4">
+          <div className="mx-auto">
+            <div className="mb-12">Are you sure you want to continue?</div>
+            <div className="flex justify-between gap-x-4">
+              <Button
+                className="w-full bg-red-800/30 hover:bg-red-800/20 text-red-800"
+                onClick={() => setCurrentStep(2)}
+              >
+                No, Cancel
+              </Button>
+              <Button
+                className="w-full bg-red-800 hover:bg-red-800/90 text-white"
+                onClick={() => navigate(`/purchase/purchasereqsuccess`)}
+              >
+                Continue
+              </Button>
             </div>
           </div>
         </div>
@@ -696,3 +748,11 @@ const steps = [
   { title: "Cost Estimation", icon: <RefreshCcw className="h-5 w-5" /> },
   { title: "Milestones", icon: <PauseCircle className="h-5 w-5" /> },
 ];
+
+const projectFunds = {
+  projectFundAmount: 20000,
+  softCommitment: 5000,
+  hardCommitment: 6800,
+  actual: 2400,
+  balance: 5800,
+};
