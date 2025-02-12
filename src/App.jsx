@@ -7,7 +7,8 @@ import Overview from "./components/links/Overview";
 import Grants from "./components/links/Grants";
 import Projects from "./components/links/Projects";
 import Purchase from "./components/links/purchaseRequisition/Purchase";
-import Contract from "./components/links/Contract";
+import Contract from "./components/links/contract/Contract";
+import ContractDetail from "./components/links/contract/ContractDetail";
 import Milestones from "./components/links/Milestones";
 import Prf from "./components/links/Prf";
 import Approvals from "./components/links/Approvals";
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/purchase/:id" element={<PurchaseDetail />} />
           <Route path="/purchase/:id/milestone" element={<PRMilestone />} />
           <Route path="/contract" element={<Contract />} />
+          <Route path="/contract/:id" element={<ContractDetail />} />
           <Route path="/milestones" element={<Milestones />} />
           <Route path="/prf" element={<Prf />} />
           <Route path="/approvals" element={<Approvals />} />

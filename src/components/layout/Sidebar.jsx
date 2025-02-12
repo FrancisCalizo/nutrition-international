@@ -10,8 +10,9 @@ export default function Sidebar() {
 
   const menuItems = [
     { icon: "⊞", label: "Dashboard", link: "/" },
-    { icon: "🎁", label: "Grants", link: "/grants" },
-    { icon: "📑", label: "Projects", link: "/projects" },
+    { icon: "📝", label: "Approvals (11)", link: "/approvals" },
+    // { icon: "🎁", label: "Grants", link: "/grants" },
+    // { icon: "📑", label: "Projects", link: "/projects" },
     {
       icon: "🔄",
       label: "Purchase Requisition",
@@ -24,9 +25,9 @@ export default function Sidebar() {
 
       link: "/contract",
     },
-    { icon: "✈", label: "Milestones", link: "/milestones" },
+    // { icon: "✈", label: "Milestones", link: "/milestones" },
     { icon: "📋", label: "PRF", link: "/prf" },
-    { icon: "📝", label: "Approvals (11)", link: "/approvals" },
+    { icon: "📋", label: "Report", link: "/report" },
   ];
 
   const handleLinkColor = (link) => {
